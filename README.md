@@ -20,7 +20,7 @@ This repository contains an Arduino sketch that demonstrates asynchronous progra
 
 - **Software:**  
   - [Arduino IDE](https://www.arduino.cc/en/software)
-  - [TimerOne Library](https://github.com/PaulStoffregen/TimerOne) (Install via the Arduino Library Manager)
+  - [NRF52_MBED_TimerInterrupt]() (Install via the Arduino Library Manager)
 
 ## Installation
 
@@ -37,7 +37,7 @@ This repository contains an Arduino sketch that demonstrates asynchronous progra
 
 3. **Install the TimerOne Library:**
 
-   In the Arduino IDE, navigate to `Sketch > Include Library > Manage Libraries...`. Search for "TimerOne" and install it if you haven't already.
+   In the Arduino IDE, navigate to `Sketch > Include Library > Manage Libraries...`. Search for "NRF52_MBED_TimerInterrupt" and install it if you haven't already.
 
 4. **Upload the Sketch:**
 
