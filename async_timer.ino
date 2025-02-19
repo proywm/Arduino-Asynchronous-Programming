@@ -1,47 +1,31 @@
-/*
-  Asynchronous Timer Interrupt Example
-  --------------------------------------
-  This sketch demonstrates asynchronous programming using a timer interrupt.
-  The built-in LED is toggled every 1 second by a timer interrupt (via TimerOne),
-  independent of the main loop. Meanwhile, the main loop prints the LED state every second.
-*/
+#include "NRF52_MBED_TimerInterrupt.h"
 
-#include <TimerOne.h>  // Include the TimerOne library for timer interrupts
+#define TIMER_INTERVAL_MS 1000  // 1-second timer interval
 
-// Declare a volatile variable for the LED state since it is modified inside an ISR.
+NRF52_MBED_Timer ITimer(NRF_TIMER_1);  // Use hardware Timer 1
 volatile bool ledState = false;
 
-// Interrupt Service Routine (ISR) to toggle the LED state.
-// This function is called automatically every 1 second by TimerOne.
 void toggleLED() {
-  ledState = !ledState;                 // Toggle the LED state
-  digitalWrite(LED_BUILTIN, ledState);   // Update the built-in LED with the new state
+  ledState = !ledState;
+  digitalWrite(LED_BUILTIN, ledState);
 }
 
 void setup() {
-  // Initialize the built-in LED as an output.
   pinMode(LED_BUILTIN, OUTPUT);
-
-  // Start Serial communication at 9600 baud for debugging purposes.
-  Serial.begin(9600);
-  // Wait for the Serial port to connect (useful for boards with native USB, like Leonardo).
-  while (!Serial) {
-    ; // Do nothing until Serial is connected.
-  }
+  Serial.begin(115200);
 
   Serial.println("Asynchronous Timer Interrupt Example Started");
 
-  // Initialize TimerOne with a period of 1,000,000 microseconds (1 second).
-  Timer1.initialize(1000000);
-  // Attach the toggleLED function to the TimerOne interrupt.
-  Timer1.attachInterrupt(toggleLED);
+  // Initialize the hardware timer for a 1-second interrupt
+  if (ITimer.attachInterruptInterval(TIMER_INTERVAL_MS * 1000, toggleLED)) {
+    Serial.println("Timer started successfully");
+  } else {
+    Serial.println("Timer failed to start");
+  }
 }
 
 void loop() {
-  // Print the current LED state to the Serial Monitor.
   Serial.print("LED is ");
   Serial.println(ledState ? "ON" : "OFF");
-  
-  // Wait for 1 second before printing again.
   delay(1000);
 }
